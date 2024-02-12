@@ -10,19 +10,17 @@ import '../services/weather_services.dart';
 
 class GlobalController extends GetxController {
   var isLoading = false.obs;
-  var lattitudee = 0.0.obs;
-  var longitudee = 0.0.obs;
   var weatherModel = WeatherModel().obs;
 
-  fetchWeatherData({required lattitudee, required longitudee}) async {
+  fetchWeatherData({required latt, required longg}) async {
     try {
       isLoading.value = true;
       const Center(
         child: CircularProgressIndicator(),
       );
       final WeatherModel model = await WeatherServices().getCurrentWeather(
-        lat: lattitudee,
-        long: longitudee,
+        lat: latt,
+        long: longg,
       );
       weatherModel.value = model;
       isLoading.value = false;
@@ -58,7 +56,7 @@ class GlobalController extends GetxController {
       positionStream = Geolocator.getPositionStream().listen((Position? position) {
         final latitude = position!.latitude;
         final longitude = position.longitude;
-        fetchWeatherData(lattitudee: latitude, longitudee: longitude);
+        fetchWeatherData(latt: latitude, longg: longitude);
       });
     }
 
