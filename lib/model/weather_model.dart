@@ -15,7 +15,7 @@ class WeatherModel {
     required this.condition,
   });
 
-  factory WeatherModel.fromJson(dynamic json) {
+  factory WeatherModel.fromJson(Map<String, dynamic> json) {
     return WeatherModel(
       name: json['name'],
       mainCondition: json['weather'][0]['main'],

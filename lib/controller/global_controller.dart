@@ -10,7 +10,7 @@ import '../services/weather_services.dart';
 
 class GlobalController extends GetxController {
   var isLoading = false.obs;
-  var weatherModel = WeatherModel().obs;
+  late WeatherModel weatherDetails;
 
   fetchWeatherData({required latt, required longg}) async {
     try {
@@ -18,11 +18,10 @@ class GlobalController extends GetxController {
       const Center(
         child: CircularProgressIndicator(),
       );
-      final WeatherModel model = await WeatherServices().getCurrentWeather(
+      weatherDetails = await WeatherServices().getCurrentWeather(
         lat: latt,
         long: longg,
       );
-      weatherModel.value = model;
       isLoading.value = false;
     } catch (error) {
       log(error.toString());

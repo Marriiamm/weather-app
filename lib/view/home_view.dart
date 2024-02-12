@@ -29,10 +29,10 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    var weatherModel = weatherController.weatherModel();
+    var weatherModell = weatherController.weatherDetails;
     return Scaffold(
       body: 
-           HomeViewBody(weatherModel: weatherModel)
+           HomeViewBody(weatherModel: weatherModell)
     );
   }
 }
