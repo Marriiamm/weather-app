@@ -1,16 +1,23 @@
 # weatherr_app
 
-A new Flutter project.
+Simple weather application that provides real-time weather information based on current user location.
 
-## Getting Started
+# Technologies Used
+- Dart
+- Flutter
+- State Management (Getx)
+- Geolocator
+- Dio
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
+- App contains 2 screens, one showing the user's current location and temperature
+   And another showing the user more details about the weather according to his location.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/Marriiamm/weather-app/assets/125306697/4071f7e4-6cd0-44f8-bf1c-a5ad80ed25d9.jpg" width="260" height="600">
+<img src="https://github.com/Marriiamm/weather-app/assets/125306697/0c751efd-83ef-453e-af42-8a31d64daeba.jpg" width="260" height="600">
+
+
+
