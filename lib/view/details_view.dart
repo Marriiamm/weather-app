@@ -18,8 +18,11 @@ class DetailsView extends GetView<GlobalController> {
         backgroundColor: kSecondClr,
       ),
       body: SafeArea(
-        child: GetX<GlobalController>(builder: (controller) {
-          double cTemp = controller.weatherModel.temp - 32 * (5 / 9);
+        child: GetBuilder<GlobalController>(builder: (controller) {
+          int cTemp = 0;
+          if (controller.weatherModel != null) {
+            cTemp = (controller.weatherModel!.temp - 273.15).toInt();
+          }
           return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -35,7 +38,7 @@ class DetailsView extends GetView<GlobalController> {
                       width: MediaQuery.of(context).size.width * 0.3,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: getAssetImage(controller.weatherModel.condition,),
+                            image: getAssetImage(controller.weatherModel?.mainCondition??"Loading...",),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -67,21 +70,21 @@ class DetailsView extends GetView<GlobalController> {
               const Spacer(),
               WeatherRowDetails(
                 customDetail: Text(
-                  controller.weatherModel.condition,
+                  controller.weatherModel?.condition??"",
                   style: textStyle20(),
                 ),
                 customImage: "assets/images/cloudsandsun.png",
               ),
               WeatherRowDetails(
                 customDetail: Text(
-                  "${controller.weatherModel.humidity.toString()}"" %" ,
+                  "${controller.weatherModel?.humidity.toString()}"" %" ,
                   style: textStyle20(),
                 ),
                 customImage: "assets/images/humidity.png",
               ),
               WeatherRowDetails(
                 customDetail: Text(
-                  "${controller.weatherModel.windSpeed.toString()}"" mi/h" ,
+                  "${controller.weatherModel?.windSpeed.toString()}"" mi/h" ,
                   style: textStyle20(),
                 ),
                 customImage: "assets/images/wind.png",
@@ -119,7 +122,7 @@ class DetailsView extends GetView<GlobalController> {
       case 'Atmosphere':
         return const AssetImage("assets/images/stratuscumulus.png");
       default:
-        return const AssetImage("assets/images/cloudsandsun.png");
+        return const AssetImage("assets/images/stratuscumulus.png");
     }
   }
 }

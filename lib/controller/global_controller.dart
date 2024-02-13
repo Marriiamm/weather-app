@@ -11,7 +11,7 @@ import '../services/weather_services.dart';
 class GlobalController extends GetxController {
   static GlobalController get instance => Get.find();
   var isLoading = false.obs;
-  late WeatherModel weatherModel;
+   WeatherModel? weatherModel;
   double? latitude;
   double? longitude;
 
@@ -44,20 +44,23 @@ class GlobalController extends GetxController {
         log('Latitude: $latitude, Longitude: $longitude');
       });
     }
+    update();
     return await Geolocator.getCurrentPosition();
   }
   fetchWeatherData({required double lat, required double long}) async {
     isLoading.value = true;
     try {
-      weatherModel = await WeatherServices().getCurrentWeather(
+       WeatherModel weatherData = await WeatherServices().getCurrentWeather(
         lat: lat,
         long: long,
       );
+      weatherModel = weatherData;
       isLoading.value = false;
     } catch (error) {
       log(error.toString());
       return const Center(child: Text("An Error Occurred"));
     }
+    update();
   }
   @override
   void onInit() { 

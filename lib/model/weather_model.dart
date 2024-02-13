@@ -25,5 +25,4 @@ class WeatherModel {
       condition: json['weather'][0]['description'],
     );
   }
-
 }
