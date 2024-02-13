@@ -9,29 +9,15 @@ import '../model/weather_model.dart';
 import '../services/weather_services.dart';
 
 class GlobalController extends GetxController {
+  static GlobalController get instance => Get.find();
   var isLoading = false.obs;
-  late WeatherModel weatherDetails;
-
-  fetchWeatherData({required latt, required longg}) async {
-    try {
-      isLoading.value = true;
-      const Center(
-        child: CircularProgressIndicator(),
-      );
-      weatherDetails = await WeatherServices().getCurrentWeather(
-        lat: latt,
-        long: longg,
-      );
-      isLoading.value = false;
-    } catch (error) {
-      log(error.toString());
-      return const Center(child: Text("An Error Occurred"));
-    }
-  }
+  late WeatherModel weatherModel;
+  double? latitude;
+  double? longitude;
 
   StreamSubscription<Position>? positionStream;
 
-  determinePosition() async {
+  Future<Position?> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -47,18 +33,53 @@ class GlobalController extends GetxController {
         log('Location permissions are denied');
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
       log('Location permissions are permanently denied, we cannot request permissions.');
     }
     if (permission == LocationPermission.whileInUse) {
-      positionStream = Geolocator.getPositionStream().listen((Position? position) {
-        final latitude = position!.latitude;
-        final longitude = position.longitude;
-        fetchWeatherData(latt: latitude, longg: longitude);
+      positionStream =
+          Geolocator.getPositionStream().listen((Position position) {
+        latitude = position.latitude;
+        longitude = position.longitude;
+        log('Latitude: $latitude, Longitude: $longitude');
       });
     }
-
     return await Geolocator.getCurrentPosition();
+  }
+  fetchWeatherData({required double lat, required double long}) async {
+    isLoading.value = true;
+    try {
+      weatherModel = await WeatherServices().getCurrentWeather(
+        lat: lat,
+        long: long,
+      );
+      isLoading.value = false;
+    } catch (error) {
+      log(error.toString());
+      return const Center(child: Text("An Error Occurred"));
+    }
+  }
+  @override
+  void onInit() { 
+      determinePosition().then((position) {
+        if (position != null) {
+          fetchWeatherData(long: position.latitude, lat: position.longitude);
+        }
+      });
+    super.onInit();
+  }
+  @override
+  void onReady() {
+    if (latitude != null && longitude != null) {
+      fetchWeatherData(lat: latitude!, long: longitude!);
+    }
+    super.onReady();
+  }
+  @override
+  void onClose() {
+    if (positionStream != null) {
+      positionStream!.cancel();
+    }
+    super.onClose();
   }
 }

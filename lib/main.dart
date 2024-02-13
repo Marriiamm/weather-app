@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryClr),
         useMaterial3: true,
       ),
-      home:  const HomeView(),
+      home: HomeView(),
     );
   }
 }

@@ -3,36 +3,11 @@ import 'package:get/get.dart';
 import '../controller/global_controller.dart';
 import 'widgets/home_view_body.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  final GlobalController weatherController = Get.put(GlobalController());
-
-  @override
-  void initState() {
-    weatherController.determinePosition();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    if (weatherController.positionStream != null) {
-      weatherController.positionStream!.cancel();
-    }
-    super.dispose();
-  }
-
+class HomeView extends StatelessWidget {
+  HomeView({Key? key}) : super(key: key);
+  final GlobalController homeController = Get.put(GlobalController());
   @override
   Widget build(BuildContext context) {
-    var weatherModell = weatherController.weatherDetails;
-    return Scaffold(
-      body: 
-           HomeViewBody(weatherModel: weatherModell)
-    );
+    return const Scaffold(body: HomeViewBody());
   }
 }
